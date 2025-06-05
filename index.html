@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Vidéo</title>
+  <title>Dansons avec l'IPM Love !!</title>
   <style>
     body {
       background-color: #ffffff;
@@ -11,13 +11,48 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
+      overflow: hidden;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
+
+    /* Titre animé */
+    .animated-title {
+      font-size: 2.5em;
+      color: #cc0066;
+      display: flex;
+      align-items: center;
+      animation: float 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    .animated-title img.pizza {
+      width: 45px;
+      height: 45px;
+      margin-left: 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     #container {
       text-align: center;
+      z-index: 10;
     }
+
     video {
       width: 60%;
       max-width: 600px;
@@ -25,13 +60,16 @@
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
+
     #finale {
       display: none;
     }
+
     #finale img {
       width: 200px;
       margin-bottom: 20px;
     }
+
     #replayBtn {
       padding: 10px 20px;
       font-size: 16px;
@@ -41,17 +79,40 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
     #replayBtn:hover {
       background-color: #c3005f;
     }
+
     @media (max-width: 700px) {
       video {
         width: 90%;
       }
     }
+
+    /* Coeurs animés */
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      color: #ff3366;
+      animation: fall 6s linear infinite;
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
+  <h1 class="animated-title">
+    Dansons avec l'IPM Love !!
+    <img class="pizza" src="https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_1280.jpg" alt="Pizza ananas">
+  </h1>
+
   <div id="container">
     <video id="myVideo" controls>
       <source src="video.mp4" type="video/mp4">
@@ -65,22 +126,40 @@
     </div>
   </div>
 
+  <!-- Script animation vidéo -->
   <script>
     const video = document.getElementById('myVideo');
     const finale = document.getElementById('finale');
     const replayBtn = document.getElementById('replayBtn');
 
-    video.onended = function() {
+    video.onended = function () {
       video.style.display = 'none';
       finale.style.display = 'block';
     };
 
-    replayBtn.onclick = function() {
+    replayBtn.onclick = function () {
       finale.style.display = 'none';
       video.style.display = 'block';
       video.currentTime = 0;
       video.play();
     };
+  </script>
+
+  <!-- Script cœurs qui tombent -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.textContent = "❤️";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 400);
   </script>
 </body>
 </html>
